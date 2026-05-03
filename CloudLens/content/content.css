@@ -1,0 +1,4 @@
+/* Host is minimal; UI lives in Shadow DOM. */
+#cloudlens-host {
+  all: initial;
+}

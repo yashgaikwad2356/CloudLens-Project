@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  width: 300px;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: linear-gradient(165deg, #0a1628, #071018);
+  color: #e8f1ff;
+}
+
+.popup {
+  padding: 1rem 1.1rem 1.15rem;
+}
+
+.popup-brand {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #3b82f6, #22d3ee);
+}
+
+.sub {
+  display: block;
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.status {
+  font-size: 0.85rem;
+  margin: 0 0 0.75rem;
+  color: #cbd5e1;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.btn {
+  border: 1px solid rgba(96, 165, 250, 0.35);
+  border-radius: 10px;
+  padding: 0.5rem 0.65rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  background: rgba(255, 255, 255, 0.05);
+  color: #e8f1ff;
+}
+
+.btn.primary {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+.btn.ghost {
+  background: transparent;
+}
+
+.hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.72rem;
+  color: #94a3b8;
+  line-height: 1.35;
+}

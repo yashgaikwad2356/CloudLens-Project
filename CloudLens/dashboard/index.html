@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CloudLens — Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css" />
+  </head>
+  <body>
+    <div class="app">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <div>
+            <strong>CloudLens</strong>
+            <span class="brand-sub">Cloud AI Assistant</span>
+          </div>
+        </div>
+        <nav class="nav">
+          <button type="button" class="nav-item active" data-section="overview">Dashboard</button>
+          <button type="button" class="nav-item" data-section="templates">Templates</button>
+          <button type="button" class="nav-item" data-section="test">Test Connection</button>
+          <button type="button" class="nav-item" data-section="monitor">Error Monitor</button>
+        </nav>
+        <p class="sidebar-hint">Tip: activate a template to enable the floating assistant on websites.</p>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <h1 id="page-title">Dashboard</h1>
+          <div class="topbar-actions">
+            <span id="conn-pill" class="pill pill-muted">Checking…</span>
+          </div>
+        </header>
+
+        <section id="section-overview" class="section active">
+          <div class="grid-2">
+            <article class="card glass">
+              <h2>Active AI model</h2>
+              <p id="dash-active" class="muted">No template activated.</p>
+              <p id="dash-provider" class="detail"></p>
+            </article>
+            <article class="card glass">
+              <h2>Templates</h2>
+              <p id="dash-template-count" class="stat">0 saved</p>
+              <a href="#" class="link" data-jump="templates">Manage templates →</a>
+            </article>
+          </div>
+          <article class="card glass mt">
+            <h2>Recent activity</h2>
+            <ul id="activity-list" class="activity-list">
+              <li class="muted">Activity from this browser session will appear here.</li>
+            </ul>
+          </article>
+          <article class="card glass mt">
+            <h2>Error summaries</h2>
+            <p class="muted small">
+              The extension watches pages for cloud-style errors. Open any console or docs page; new errors trigger
+              structured AI guidance when a template is active.
+            </p>
+            <ul id="error-summaries" class="activity-list"></ul>
+          </article>
+        </section>
+
+        <section id="section-templates" class="section">
+          <div class="split">
+            <article class="card glass">
+              <h2>Saved templates</h2>
+              <ul id="template-list" class="template-list"></ul>
+            </article>
+            <article class="card glass">
+              <h2 id="form-title">New template</h2>
+              <form id="template-form" class="form">
+                <input type="hidden" id="field-id" />
+                <label>
+                  Template name
+                  <input id="field-name" type="text" required placeholder="e.g. Work OpenAI" />
+                </label>
+                <label>
+                  Provider
+                  <select id="field-provider">
+                    <option value="openai">OpenAI</option>
+                    <option value="anthropic">Anthropic</option>
+                    <option value="google">Google (Gemini)</option>
+                    <option value="openai-compatible">OpenAI-compatible / local API</option>
+                  </select>
+                </label>
+                <label>
+                  Model name
+                  <input id="field-model" type="text" required placeholder="gpt-4o-mini, claude-3-5-sonnet-latest, gemini-1.5-flash" />
+                </label>
+                <label>
+                  API key
+                  <input id="field-key" type="password" autocomplete="off" placeholder="Stored locally in this browser" />
+                </label>
+                <label id="wrap-baseurl" class="hidden">
+                  Base URL / endpoint root
+                  <input id="field-baseurl" type="url" placeholder="https://api.example.com/v1" />
+                </label>
+                <div class="row-2">
+                  <label>
+                    Temperature
+                    <input id="field-temp" type="number" step="0.1" min="0" max="2" value="0.3" />
+                  </label>
+                  <label>
+                    Max tokens
+                    <input id="field-max" type="number" min="64" max="128000" value="2048" />
+                  </label>
+                </div>
+                <div class="form-actions">
+                  <button type="submit" class="btn primary">Save template</button>
+                  <button type="button" id="btn-reset-form" class="btn ghost">Clear</button>
+                </div>
+              </form>
+            </article>
+          </div>
+        </section>
+
+        <section id="section-test" class="section">
+          <article class="card glass">
+            <h2>Test connection</h2>
+            <p class="muted small">Validate API keys, endpoints, and model names before relying on CloudLens in the field.</p>
+            <div class="test-row">
+              <label class="grow">
+                Template
+                <select id="test-template-select"></select>
+              </label>
+              <button type="button" id="btn-test" class="btn primary">Run test</button>
+            </div>
+            <div id="test-results" class="test-results hidden">
+              <div class="metric-grid">
+                <div class="metric">
+                  <span class="metric-label">Status</span>
+                  <strong id="test-status">—</strong>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Latency</span>
+                  <strong id="test-latency">—</strong>
+                </div>
+                <div class="metric wide">
+                  <span class="metric-label">Validation</span>
+                  <strong id="test-validation">—</strong>
+                </div>
+              </div>
+              <h3 class="mt">Sample output</h3>
+              <pre id="test-output" class="output-block"></pre>
+            </div>
+          </article>
+        </section>
+
+        <section id="section-monitor" class="section">
+          <article class="card glass">
+            <h2>Error monitor</h2>
+            <p class="muted">
+              While you browse, CloudLens scans visible text for common failure signals (error, timeout, access denied,
+              etc.). When a <em>new</em> error block is detected and an AI template is active, the extension sends it to
+              your model once and shows structured troubleshooting steps—duplicates are ignored to save API usage.
+            </p>
+            <ul class="bullet-list">
+              <li>Keywords include: error, failed, timeout, access denied, unauthorized, exception, and more.</li>
+              <li>Highlight any text and use <strong>Ask CloudLens AI</strong> for instant chat context.</li>
+            </ul>
+          </article>
+        </section>
+      </main>
+    </div>
+    <script type="module" src="dashboard.js"></script>
+  </body>
+</html>

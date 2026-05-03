@@ -1,0 +1,56 @@
+{
+  "manifest_version": 3,
+  "name": "CloudLens",
+  "version": "1.0.0",
+  "description": "AI-powered cloud troubleshooting assistant for AWS, Azure, GCP, and more.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    },
+    "default_title": "CloudLens"
+  },
+  "options_ui": {
+    "page": "dashboard/index.html",
+    "open_in_tab": true
+  },
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "permissions": ["storage", "activeTab", "scripting", "alarms"],
+  "host_permissions": ["<all_urls>"],
+  "content_scripts": [
+    {
+      "matches": [
+        "https://*.aws.amazon.com/*",
+        "https://aws.amazon.com/*",
+        "https://*.amazonaws.com/*",
+        "https://console.aws.amazon.com/*",
+        "https://*.cloud.google.com/*",
+        "https://console.cloud.google.com/*",
+        "https://cloud.google.com/*",
+        "https://*.azure.com/*",
+        "https://portal.azure.com/*",
+        "https://*.portal.azure.com/*",
+        "https://admin.microsoft.com/*",
+        "https://entra.microsoft.com/*",
+        "https://learn.microsoft.com/*",
+        "https://docs.aws.amazon.com/*",
+        "https://kubernetes.io/*",
+        "https://*.terraform.io/*",
+        "https://app.terraform.io/*"
+      ],
+      "js": ["content/content.js"],
+      "css": ["content/content.css"],
+      "run_at": "document_idle"
+    }
+  ]
+}
